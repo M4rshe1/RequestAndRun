@@ -1,0 +1,32 @@
+{
+  "settings": {
+    "local_prefix": "runfile",
+    "hub_file": "hub",
+    "agents": {
+      "powershell": "ps1",
+      "bash": "sh",
+      "curl": "sh",
+      "wget": "sh"
+    },
+    "tokens": [
+      "hub_config_token_2378r2tvf9iwjzebf89qz9fozhbsontgjnaeriufz973v",
+      "admin_token_02q34zhuzgn9ef237tvr28b9f29u3f2389z89wzbhuef92983f"
+    ],
+    "token_required": false,
+    "base_url": "192.168.1.100:8000"
+  },
+  "files": {
+    "ping-tool": {
+      "powershell": {
+        "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/ping_tool/ping_tool.ps1",
+        "local": false
+      }
+    },
+    "ctt": {
+      "powershell": {
+        "path": "https://christitus.com/win",
+        "local": false
+      }
+    }
+  }
+}
