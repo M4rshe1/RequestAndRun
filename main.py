@@ -61,9 +61,11 @@ async def root(request: Request, file: str, token: str = None):
             return {"message": "Invalid token"}
 
     if file == config["settings"]["hub_file"]:
-        file = read_file(config["settings"]["local_prefix"] + "/" +
-                         config["settings"]["hub_file"] + "." +
-                         config["settings"]["agents"][agent])
+        file = read_file(
+            config["settings"]["local_prefix"] + "/" +
+            config["settings"]["hub_file"] + "." +
+            config["settings"]["agents"][agent]
+            )
         raw_file = f"$TOKEN = '{token}' \n{file}"
         return raw_file
 
@@ -75,4 +77,7 @@ async def root(request: Request, file: str, token: str = None):
         return read_file(config["files"][file][agent]["path"])
     else:
         # return redirect
-        return RedirectResponse(config["files"][file][agent]["path"])
+        return RedirectResponse(
+            config["settings"]["local_prefix"] + "/" +
+            config["files"][file][agent]["path"]
+            )
