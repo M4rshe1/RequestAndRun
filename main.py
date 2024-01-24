@@ -34,6 +34,13 @@ def check_token(token: str) -> bool:
     return False
 
 
+def add_token(token: str, file: str, agent: str):
+    if agent == "powershell":
+        return "$TOKEN = '" + token + "' \n" + file
+    elif agent == "bash" or agent == "curl" or agent == "wget":
+        return "TOKEN='" + token + "' \n" + file
+
+
 @app.get("/files/{token}")
 async def root(token: str = None):
     config = read_config()
@@ -61,13 +68,12 @@ async def root(request: Request, file: str, token: str = None):
             return {"message": "Invalid token"}
 
     if file == config["settings"]["hub_file"]:
-        file = read_file(
+        raw_file = read_file(
             config["settings"]["local_prefix"] + "/" +
             config["settings"]["hub_file"] + "." +
             config["settings"]["agents"][agent]
-            )
-        raw_file = f"$TOKEN = '{token}' \n{file}"
-        return raw_file
+        )
+        return add_token(token, raw_file, agent)
 
     if file not in config["files"].keys():
         return {"message": "Invalid file"}
@@ -80,4 +86,4 @@ async def root(request: Request, file: str, token: str = None):
         return RedirectResponse(
             config["settings"]["local_prefix"] + "/" +
             config["files"][file][agent]["path"]
-            )
+        )

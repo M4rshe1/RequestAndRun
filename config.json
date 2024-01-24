@@ -2,6 +2,7 @@
   "settings": {
     "local_prefix": "runfile",
     "hub_file": "hub",
+    "state": "dev",
     "agents": {
       "powershell": "ps1",
       "bash": "sh",
