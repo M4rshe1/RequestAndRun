@@ -50,5 +50,5 @@ fi
 fileName=${runfiles.names[$selection]}
 clear
 echo "Running $fileName"
-url="${runfiles.base_url}/$fileName/$TOKEN"
+url="${runfiles.base_url}/$fileName/bash/$TOKEN"
 curl -s "$url" | bash

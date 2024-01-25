@@ -29,7 +29,7 @@ def check_agent(user_agent: str, sh: str = None) -> str or None:
     return None
 
 
-def check_token(token: str) -> bool:
+def check_token(token: str = "no_token") -> bool:
     if len(read_config()["settings"]["tokens"]) == 0:
         return True
     if token in read_config()["settings"]["tokens"]:
