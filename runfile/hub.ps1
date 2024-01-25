@@ -49,5 +49,5 @@ if ($selection -lt 0 -or $selection -gt $runfiles.names.Length)
 $fileName = $runfiles.names[$selection]
 clear-host
 Write-Host "Running $fileName"
-$url = "$($runfiles.base_url)/$($fileName)/$($TOKEN)"
+$url = "$($runfiles.base_url)/$($fileName)/powershell/$($TOKEN)"
 Invoke-WebRequest $url | Invoke-Expression
