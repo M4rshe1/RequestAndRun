@@ -31,7 +31,7 @@ GET /{filename}/{shell_override}/{token}?name={name}&date={date}
 
 ### Config
 
-Example `config.json` file:
+Example `config.json` file:  
 ```json
 {
   "settings": {
