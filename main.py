@@ -1,7 +1,7 @@
 import json
 from fastapi import FastAPI
 from starlette.requests import Request
-from fastapi.responses import RedirectResponse
+import requests
 
 app = FastAPI()
 
@@ -107,7 +107,7 @@ async def root(request: Request, file: str):
     config = read_config()
     if config["settings"]["token_required"]:
         return {"message": "Invalid token"}
-    return response(request, file)
+    return get_response(request, file)
 
 
 @app.get("/{file}/{shell}")
@@ -119,15 +119,15 @@ async def root(request: Request, file: str, shell: str = None):
         return {"message": "This is not a supported agent", "agent": user_agent}
     if config["settings"]["token_required"]:
         return {"message": "Invalid token"}
-    return response(request=request, file=file, shell=shell)
+    return get_response(request=request, file=file, shell=shell)
 
 
 @app.get("/{file}/{shell}/{token}/")
 async def root(request: Request, file: str, shell: str = None, token: str = None):
-    return response(request=request, file=file, token=token, shell=shell)
+    return get_response(request=request, file=file, token=token, shell=shell)
 
 
-def response(request: Request, file: str, shell: str = None, token: str = None):
+def get_response(request: Request, file: str, shell: str = None, token: str = None):
     config = read_config()
     user_agent = request.headers.get("user-agent")
     agent = check_agent(user_agent, shell)
@@ -156,7 +156,8 @@ def response(request: Request, file: str, shell: str = None, token: str = None):
         # return in raw format
         return read_file(config["files"][file][agent]["path"])
     else:
-        # return redirect
-        return RedirectResponse(
-            config["files"][file][agent]["path"]
-        )
+        response = requests.get(config["files"][file][agent]["url"])
+        if response.status_code != 200:
+            return {"message": "File not found"}
+        raw_file = add_args(response.text, request, agent)
+        return add_token(token, raw_file, agent)
