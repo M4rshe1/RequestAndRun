@@ -40,7 +40,7 @@ def check_token(token: str) -> bool:
 def add_token(token: str, file: str, agent: str):
     if token is None:
         token = "no_token"
-    if agent == "powershell":
+    if agent == "powershell" or agent == "pwsh":
         return "$TOKEN = '" + token + "' \n" + file
     elif agent == "bash" or agent == "curl" or agent == "wget":
         # remove the first line
@@ -55,10 +55,10 @@ def add_args(file: str, request: Request, agent: str):
     args = request.query_params
     if len(args) == 0:
         return file
-    if agent == "powershell":
+    if agent == "powershell" or agent == "pwsh":
         powershell_args = "@{"
         for arg in args:
-            powershell_args += "'" + arg + "':'" + args[arg] + "',"
+            powershell_args += "'" + arg + "'='" + args[arg] + "',"
         powershell_args = powershell_args[:-1] + "}"
         file = "$ARGS = " + powershell_args + "\n" + file
     elif agent == "bash" or agent == "curl" or agent == "wget":
