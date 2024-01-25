@@ -43,7 +43,12 @@ def add_token(token: str, file: str, agent: str):
     if agent == "powershell":
         return "$TOKEN = '" + token + "' \n" + file
     elif agent == "bash" or agent == "curl" or agent == "wget":
-        return "TOKEN='" + token + "' \n" + file
+        # remove the first line
+        file = file.split("\n")[1:]
+        file = "\n".join(file)
+        file = "TOKEN='" + token + "'\n" + file
+        file = "#!/bin/bash\n" + file
+        return file
 
 
 @app.get("/files")
