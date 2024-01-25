@@ -29,7 +29,7 @@ def check_agent(user_agent: str, sh: str = None) -> str or None:
     return None
 
 
-def check_token(token: str = "no_token") -> bool:
+def check_token(token: str) -> bool:
     if len(read_config()["settings"]["tokens"]) == 0:
         return True
     if token in read_config()["settings"]["tokens"]:
@@ -38,6 +38,8 @@ def check_token(token: str = "no_token") -> bool:
 
 
 def add_token(token: str, file: str, agent: str):
+    if token is None:
+        token = "no_token"
     if agent == "powershell":
         return "$TOKEN = '" + token + "' \n" + file
     elif agent == "bash" or agent == "curl" or agent == "wget":
