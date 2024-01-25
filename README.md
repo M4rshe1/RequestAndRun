@@ -99,7 +99,8 @@ Example `config.json` file:
 
 It will automatically create a hub file that will list all the files that are available for that agent.  
 
-```
+```powershell
+"
   _____  _    _ _   _   ______ _ _
  |  __ \| |  | | \ | | |  ____(_) |
  | |__) | |  | |  \| | | |__   _| | ___
@@ -123,4 +124,5 @@ Quit                 - [q]
 
 Select a runfile to run
 >> :
+"
 ```
