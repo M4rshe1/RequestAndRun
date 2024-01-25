@@ -51,6 +51,28 @@ def add_token(token: str, file: str, agent: str):
         return file
 
 
+def add_args(file: str, request: Request, agent: str):
+    args = request.query_params
+    if len(args) == 0:
+        return file
+    if agent == "powershell":
+        powershell_args = "@{"
+        for arg in args:
+            powershell_args += "'" + arg + "':'" + args[arg] + "',"
+        powershell_args = powershell_args[:-1] + "}"
+        file = "$ARGS = " + powershell_args + "\n" + file
+    elif agent == "bash" or agent == "curl" or agent == "wget":
+        bash_args = "declare -A ARGS\n"
+        for arg in args:
+            bash_args += "ARGS[" + arg + "]='" + args[arg] + "'\n"
+        bash_args = bash_args[:-1]
+        file = file.split("\n")[1:]
+        file = "\n".join(file)
+        file = bash_args + "\n" + file
+        file = "#!/bin/bash\n" + file
+    return file
+
+
 @app.get("/files")
 async def root(request: Request):
     origin = str(request.url).split("/")[2]
@@ -121,6 +143,7 @@ def response(request: Request, file: str, shell: str = None, token: str = None):
             config["settings"]["hub_file"] + "." +
             config["settings"]["agents"][agent]
         )
+        raw_file = add_args(raw_file, request, agent)
         return add_token(token, raw_file, agent)
 
     if file not in config["files"].keys():

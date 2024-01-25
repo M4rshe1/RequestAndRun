@@ -24,31 +24,33 @@ runfiles=$(curl -s "http://127.0.0.1:8000/files/$TOKEN")
 echo "Available runfiles:"
 echo "-$(printf -- '-%.0s' {1..25})"
 index=1
+
 for name in $(echo "$runfiles" | jq -r '.names[]'); do
-    if echo "$runfiles" | jq -r ".agents.$name" | grep -q "powershell"; then
+    if [[ $(echo "$runfiles" | jq -r ".agents.$name") == *"bash"* ]]; then
         printf "%-20s - [%d]\n" "$name" "$index"
     fi
     ((index++))
 done
+
 echo "-$(printf -- '-%.0s' {1..25})"
-echo "$(printf '%-20s - [q]' 'Quit')"
+echo "$(printf -- 'Quit%.0s' {1..20}) - [q]"
 echo ""
-read -rp "Select a runfile to run >> " selection
+read -p "Select a runfile to run >> " selection
 
-if [ -z "$selection" ] || [ "$selection" = "q" ]; then
+if [[ -z "$selection" || "$selection" == "q" ]]; then
     exit
 fi
 
-((selection--))
+selection=$((selection - 1))
 
-if [ "$selection" -lt 0 ] || [ "$selection" -ge ${#runfiles.names[@]} ]; then
+if ((selection < 0 || selection >= ${#runfiles.names[@]})); then
     echo "Invalid selection"
-    read -rp "Press any key to exit..."
+    read -p "Press any key to exit..."
     exit
 fi
 
-fileName=${runfiles.names[$selection]}
+fileName="${runfiles.names[$selection]}"
 clear
 echo "Running $fileName"
-url="${runfiles.base_url}/$fileName/bash/$TOKEN"
+url="http://${runfiles.base_url}/$fileName/powershell/$TOKEN"
 curl -s "$url" | bash
