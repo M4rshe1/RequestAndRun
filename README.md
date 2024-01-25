@@ -27,14 +27,18 @@ sudo bash run bash -rebuild -pull
 GET /{filename}/{shell_override}/{token}?name={name}&date={date}
 ```
 
-- **filename:** The name of the file to run. (Required)  
-- **shell_override:** The shell to use to run the file. (Optional)  
-  - if it is not a supported shell it will try to detect the right one. This is practical if you don't want to specify shell by yourself.
-- **token:** The token to use to authenticate. (Required if set in config otherwise optional) 
-- **?** The args to pass to the script. (Optional)"
-  - Saved as `ARGS` dict in the script. with the key being the arg name and the value being the arg value.
-    - Example: `?name=Colin&date=2021-09-11`
-    - Will be added to the script as dict: `ARGS = {"name": "Colin", "date": "2021-09-11"}`
+**Explanation:**  
+
+**filename** The name of the file to run. (Required)  
+**shell_override**  
+&nbsp;&nbsp;&nbsp;&nbsp; The shell to use to run the file. (Optional)   
+&nbsp;&nbsp;&nbsp;&nbsp; If it is not a supported shell it will try to detect the right one. This is practical if you don't want to specify shell by yourself.  
+**token** The token to use to authenticate. (Required if set in config otherwise optional)  
+**query**  
+&nbsp;&nbsp;&nbsp;&nbsp; The args to pass to the script. (Optional)  
+&nbsp;&nbsp;&nbsp;&nbsp; Saved as 'ARGS' dict in the script. with the key being the arg name and the value being the arg value.   
+&nbsp;&nbsp;&nbsp;&nbsp; Example: '?name=Colin&date=2021-09-11'   
+&nbsp;&nbsp;&nbsp;&nbsp; Will be added to the script as dict: ``ARGS = {'name': 'Colin', 'date': '2021-09-11'}  ``
 
 ### Config  
 
@@ -81,19 +85,22 @@ Example `config.json` file:
 }
 ```
 
-- **settings:** The settings for the server.
-  - **local_prefix:** The prefix in which folder to save the files. (Default: `runfile`)
-  - **hub_file:** The name of the file to use for the hub. (Default: `hub`)
-  - **state:** The state of the server. (Default: `dev`)
-  - **agents:** The supported agents and there default extension.
-  - **tokens:** The tokens to use for authentication. (Default: `[]`)
-  - **token_required:** If a token is required to run a file. (Default: `false`)
+### Explanation:
 
-- **files:** The files to run.
-  - **{filename}:** The name of the file to run.
-    - **{agent}:** The shell to use to run the file.
-      - **path:** The path to the file to run (local or url)
-      - **local:** If the file is local or not. (Default: `false`)
+**Settings**  
+&nbsp;&nbsp;&nbsp;&nbsp;**local_prefix** The prefix in which folder to save the files. (Default: 'runfile')   
+&nbsp;&nbsp;&nbsp;&nbsp;**hub_file** The name of the file to use for the hub. (Default: 'hub')   
+&nbsp;&nbsp;&nbsp;&nbsp;**state** The state of the server. (Default: 'dev')   
+&nbsp;&nbsp;&nbsp;&nbsp;**agents** The supported agents and there default extension.   
+&nbsp;&nbsp;&nbsp;&nbsp;**tokens** The tokens to use for authentication. (Default: '[]')   
+&nbsp;&nbsp;&nbsp;&nbsp;**token_required** If a token is required to run a file. (Default: 'false')   
+
+**Files**   
+&nbsp;&nbsp;&nbsp;&nbsp;**{filename}** The name of the file to run.  
+&nbsp;&nbsp;&nbsp;&nbsp;**{agent}** The agent to use to run the file.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**path** The path to the file to run (local or url)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**local** If the file is local or not. (Default: 'false')  
+
 
 ### Hub
 
