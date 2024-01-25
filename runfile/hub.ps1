@@ -17,7 +17,7 @@ Write-Host @"
 
 "@
 
-$runfiles = Invoke-RestMethod "127.0.0.1:8000/files/$($TOKEN)"
+$runfiles = Invoke-RestMethod "$($BASE_URL)/files/$($TOKEN)"
 
 Write-Host "Available runfiles:"
 Write-Host "-".PadRight(26, "-")

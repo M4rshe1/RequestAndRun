@@ -19,7 +19,7 @@ echo """
 """
 
 # Assuming TOKEN is already defined
-runfiles=$(curl -s "http://127.0.0.1:8000/files/$TOKEN")
+runfiles=$(curl -s "http://${BASE_URL}/files/$TOKEN")
 
 echo "Available runfiles:"
 echo "-$(printf -- '-%.0s' {1..25})"

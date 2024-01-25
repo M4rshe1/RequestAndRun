@@ -37,16 +37,20 @@ def check_token(token: str) -> bool:
     return False
 
 
-def add_token(token: str, file: str, agent: str):
+def add_token(token: str, file: str, agent: str, request: Request):
+    base_url = str(request.url).split("/")[2]
     if token is None:
         token = "no_token"
     if agent == "powershell" or agent == "pwsh":
-        return "$TOKEN = '" + token + "' \n" + file
+        file = "$TOKEN = '" + token + "' \n" + file
+        file = "$BASE_URL = '" + base_url + "' \n" + file
+        return file
     elif agent == "bash" or agent == "curl" or agent == "wget":
         # remove the first line
         file = file.split("\n")[1:]
         file = "\n".join(file)
         file = "TOKEN='" + token + "'\n" + file
+        file = "BASE_URL='" + base_url + "'\n" + file
         file = "#!/bin/bash\n" + file
         return file
 
@@ -144,7 +148,7 @@ def get_response(request: Request, file: str, shell: str = None, token: str = No
             config["settings"]["agents"][agent]
         )
         raw_file = add_args(raw_file, request, agent)
-        return add_token(token, raw_file, agent)
+        return add_token(token, raw_file, agent, request)
 
     if file not in config["files"].keys():
         return {"message": "File not found"}
@@ -156,7 +160,7 @@ def get_response(request: Request, file: str, shell: str = None, token: str = No
         # return in raw format
         raw_file = read_file(config["files"][file][agent]["path"])
         raw_file = add_args(raw_file, request, agent)
-        raw_file = add_token(token, raw_file, agent)
+        raw_file = add_token(token, raw_file, agent, request)
         return raw_file
     else:
         response = requests.get(config["files"][file][agent]["path"])
@@ -164,5 +168,5 @@ def get_response(request: Request, file: str, shell: str = None, token: str = No
             return {"message": "File not found"}
         raw_file = response.text
         raw_file = add_args(raw_file, request, agent)
-        raw_file = add_token(token, raw_file, agent)
+        raw_file = add_token(token, raw_file, agent, request)
         return raw_file
