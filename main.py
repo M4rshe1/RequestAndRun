@@ -29,7 +29,7 @@ def check_agent(user_agent: str) -> str or None:
 def check_token(token: str) -> bool:
     if len(read_config()["settings"]["tokens"]) == 0:
         return True
-    if token == read_config()["settings"]["tokens"]:
+    if token in read_config()["settings"]["tokens"]:
         return True
     return False
 
@@ -42,7 +42,8 @@ def add_token(token: str, file: str, agent: str):
 
 
 @app.get("/files/{token}")
-async def root(token: str = None):
+async def root(request: Request, token: str = None):
+    origin = str(request.url).split("/")[2]
     config = read_config()
     if config["settings"]["token_required"] and token is not None:
         if not check_token(token):
@@ -50,7 +51,7 @@ async def root(token: str = None):
     runfile = list(read_config()["files"].keys())
     agents = [{file: list(config["files"][file].keys())} for file in config["files"]]
     return {
-        "base_url": config["settings"]["base_url"],
+        "base_url": origin,
         "names": runfile,
         "agents": agents
     }
@@ -84,6 +85,5 @@ async def root(request: Request, file: str, token: str = None):
     else:
         # return redirect
         return RedirectResponse(
-            config["settings"]["local_prefix"] + "/" +
             config["files"][file][agent]["path"]
         )

@@ -14,7 +14,6 @@
       "admin_token_02q34zhuzgn9ef237tvr28b9f29u3f2389z89wzbhuef92983f"
     ],
     "token_required": false,
-    "base_url": "192.168.1.100:8000"
   },
   "files": {
     "ping-tool": {

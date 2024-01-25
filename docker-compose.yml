@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+  reqandrun:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ReqAndRun
+    ports:
+      - "5858:8000"
+    volumes:
+      - ./config.json:/app/config.json
+      - ./runfile:/app/runfile
+    restart: unless-stopped

@@ -1,5 +1,4 @@
 #!/bin/bash
-TOKEN="HelloWorld"
 currentYear=$(date +'%Y')
 clear
 
