@@ -32,7 +32,7 @@ GET /{filename}/{shell_override}/{token}?name={name}&date={date}
   - if it is not a supported shell it will try to detect the right one. This is practical if you don't want to specify shell by yourself.
 - **token:** The token to use to authenticate. (Required if set in config otherwise optional) 
 - **?** The args to pass to the script. (Optional)"
-    - Saved as `ARGS` dict in the script. with the key being the arg name and the value being the arg value.
+  - Saved as `ARGS` dict in the script. with the key being the arg name and the value being the arg value.
     - Example: `?name=Colin&date=2021-09-11`
     - Will be added to the script as dict: `ARGS = {"name": "Colin", "date": "2021-09-11"}`
 
@@ -82,18 +82,18 @@ Example `config.json` file:
 ```
 
 - **settings:** The settings for the server.
-    - **local_prefix:** The prefix in which folder to save the files. (Default: `runfile`)
-    - **hub_file:** The name of the file to use for the hub. (Default: `hub`)
-    - **state:** The state of the server. (Default: `dev`)
-    - **agents:** The supported agents and there default extension.
-    - **tokens:** The tokens to use for authentication. (Default: `[]`)
-    - **token_required:** If a token is required to run a file. (Default: `false`)
+  - **local_prefix:** The prefix in which folder to save the files. (Default: `runfile`)
+  - **hub_file:** The name of the file to use for the hub. (Default: `hub`)
+  - **state:** The state of the server. (Default: `dev`)
+  - **agents:** The supported agents and there default extension.
+  - **tokens:** The tokens to use for authentication. (Default: `[]`)
+  - **token_required:** If a token is required to run a file. (Default: `false`)
 
 - **files:** The files to run.
   - **{filename}:** The name of the file to run.
-      - **{agent}:** The shell to use to run the file.
-          - **path:** The path to the file to run (local or url)
-          - **local:** If the file is local or not. (Default: `false`)
+    - **{agent}:** The shell to use to run the file.
+      - **path:** The path to the file to run (local or url)
+      - **local:** If the file is local or not. (Default: `false`)
 
 ### Hub
 
