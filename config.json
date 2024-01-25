@@ -22,6 +22,10 @@
       "powershell": {
         "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/ping_tool/ping_tool.ps1",
         "local": false
+      },
+      "pwsh": {
+        "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/ping_tool/ping_tool.ps1",
+        "local": false
       }
     },
     "ctt": {

@@ -150,14 +150,19 @@ def get_response(request: Request, file: str, shell: str = None, token: str = No
         return {"message": "File not found"}
 
     if agent not in config["files"][file].keys():
-        return {"message": "THis agent is not supported for this file"}
+        return {"message": "This agent is not supported for this file"}
 
     if config["files"][file][agent]["local"]:
         # return in raw format
-        return read_file(config["files"][file][agent]["path"])
+        raw_file = read_file(config["files"][file][agent]["path"])
+        raw_file = add_args(raw_file, request, agent)
+        raw_file = add_token(token, raw_file, agent)
+        return raw_file
     else:
-        response = requests.get(config["files"][file][agent]["url"])
+        response = requests.get(config["files"][file][agent]["path"])
         if response.status_code != 200:
             return {"message": "File not found"}
-        raw_file = add_args(response.text, request, agent)
-        return add_token(token, raw_file, agent)
+        raw_file = response.text
+        raw_file = add_args(raw_file, request, agent)
+        raw_file = add_token(token, raw_file, agent)
+        return raw_file

@@ -50,4 +50,5 @@ $fileName = $runfiles.names[$selection]
 clear-host
 Write-Host "Running $fileName"
 $url = "$($runfiles.base_url)/$($fileName)/powershell/$($TOKEN)"
-Invoke-WebRequest $url | Invoke-Expression
+$url | out-string
+Invoke-RestMethod $url | Invoke-Expression
