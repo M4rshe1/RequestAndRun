@@ -3,14 +3,19 @@ A rest api basted server that makes it possible to run any shell script file fro
 
 ## Run it yourself
 1. Clone the repo
+
 ```bash
 git clone https.//github.com/M4rshe1/RequestAndRun.git
 ```
+
 2. Move into the directory
+
 ```bash
 cd RequestAndRun
 ```
+
 3. Run the Docker container
+
 ```bash
 sudo bash run bash -rebuild -pull
 ```
