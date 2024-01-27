@@ -1,6 +1,6 @@
 $currentYear = (Get-Date).Year
 clear-host
-Write-Host @"
+$banner = @"
   _____  _    _ _   _   ______ _ _
  |  __ \| |  | | \ | | |  ____(_) |
  | |__) | |  | |  \| | | |__   _| | ___ 
@@ -15,40 +15,103 @@ Write-Host @"
 * https://github.com/M4rshe1                                   *
 ****************************************************************
 
+Available runfiles:
+--------------------------------------------------
 "@
 
 $runfiles = Invoke-RestMethod "$($BASE_URL)/files/$($TOKEN)"
 
-Write-Host "Available runfiles:"
-Write-Host "-".PadRight(26, "-")
+
+Function Create-Menu (){
+
+    Param(
+        [Parameter(Mandatory=$True)][String]$MenuTitle,
+        [Parameter(Mandatory=$True)][array]$MenuOptions
+    )
+
+    $MaxValue = $MenuOptions.count-1
+    $Selection = 0
+    $EnterPressed = $False
+
+    Clear-Host
+
+    While($EnterPressed -eq $False){
+
+        Write-Host "$MenuTitle"
+
+        For ($i=0; $i -le $MaxValue; $i++){
+
+            If ($i -eq $Selection){
+                Write-Host -BackgroundColor DarkGray -ForegroundColor White "[ $($MenuOptions[$i]) ]" -NoNewline
+                Write-Host $runfiles.agents.$($MenuOptions[$i]).admin -NoNewline
+                if ($runfiles.files.$($MenuOptions[$i]).admin -eq $true)
+                {
+                    Write-Host " A " -NoNewline -ForegroundColor DarkRed
+                }
+                Write-Host " - $($runfiles.files.$($MenuOptions[$i]).description) by $($runfiles.files.$($MenuOptions[$i]).author)"
+            } Else {
+                Write-Host "  $($MenuOptions[$i])  "
+            }
+
+        }
+
+        $KeyInput = $host.ui.rawui.readkey("NoEcho,IncludeKeyDown").virtualkeycode
+
+        Switch($KeyInput){
+            13{
+                $EnterPressed = $True
+                Return $Selection
+                Clear-Host
+                break
+            }
+
+            38{
+                If ($Selection -eq 0){
+                    $Selection = $MaxValue
+                } Else {
+                    $Selection -= 1
+                }
+                Clear-Host
+                break
+            }
+
+            40{
+                If ($Selection -eq $MaxValue){
+                    $Selection = 0
+                } Else {
+                    $Selection +=1
+                }
+                Clear-Host
+                break
+            }
+            Default{
+                Clear-Host
+            }
+        }
+    }
+}
+
 $index = 1
-foreach ($name in $runfiles.names)
-{
-    if ($runfiles.agents.$name.Contains("powershell")) {
-        Write-Host "$($name.PadRight(20) ) - [$index]"
+$options = @()
+$runfiles.names | ForEach-Object {
+    if ($runfiles.agents.$_.Contains("powershell")) {
+        $options += $_
     }
     $index++
 }
-Write-Host "-".PadRight(26, "-")
-Write-Host "$('Quit'.PadRight(20) ) - [q]"
-Write-Host ""
-Write-Host "Select a runfile to run"
-$selection = Read-Host ">> "
-if ($selection -eq "" -or $selection -eq "q")
-{
-    exit
-}
-$selection = [int]$selection - 1
-Write-Host $selection
-if ($selection -lt 0 -or $selection -gt $runfiles.names.Length)
-{
-    Write-Host "Invalid selection"
-    Read-Host "Press any key to exit..."
-    exit
-}
-$fileName = $runfiles.names[$selection]
+
+$selection = Create-Menu -MenuTitle $banner -MenuOptions $options
+
 clear-host
 Write-Host "Running $fileName"
-$url = "$($runfiles.base_url)/$($fileName)/powershell/$($TOKEN)"
+$url = "$($runfiles.base_url)/$($options[$selection])/powershell/$($TOKEN)"
 $url | out-string
-Invoke-RestMethod $url | Invoke-Expression
+
+if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) -and $runfiles.files.$($options[$selection]).admin -eq $true) {
+    Start-Process -Verb runas powershell -ArgumentList "Invoke-RestMethod -Uri $url | Invoke-Expression" -Wait
+}
+else
+{
+    Invoke-RestMethod $url | Invoke-Expression
+}
+

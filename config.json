@@ -4,12 +4,24 @@
     "hub_file": "hub",
     "state": "dev",
     "agents": {
-      "powershell": "ps1",
-      "pwsh": "ps1",
-      "bash": "sh",
-      "sh": "sh",
-      "curl": "sh",
-      "wget": "sh"
+      "powershell": {
+        "extension": "ps1"
+      },
+      "pwsh": {
+        "extension": "ps1"
+      },
+      "bash": {
+        "extension": "sh"
+      },
+      "sh": {
+        "extension": "sh"
+      },
+      "curl": {
+        "extension": "sh"
+      },
+      "wget": {
+        "extension": "sh"
+      }
     },
     "tokens": [
       "hub_config_token_2378r2tvf9iwjzebf89qz9fozhbsontgjnaeriufz973v",
@@ -19,20 +31,47 @@
   },
   "files": {
     "ping-tool": {
-      "powershell": {
-        "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/ping_tool/ping_tool.ps1",
-        "local": false
+      "agents": {
+        "powershell": {
+          "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/ping_tool/ping_tool.ps1",
+          "local": false
+        },
+        "pwsh": {
+          "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/ping_tool/ping_tool.ps1",
+          "local": false
+        }
       },
-      "pwsh": {
-        "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/ping_tool/ping_tool.ps1",
-        "local": false
-      }
+      "description": "Ping Tool",
+      "category": "Tools",
+      "author": "M4rshe1",
+      "version": "1.0",
+      "admin": false
     },
     "ctt": {
-      "powershell": {
-        "path": "https://christitus.com/win",
-        "local": false
-      }
+        "agents": {
+            "powershell": {
+            "path": "https://raw.githubusercontent.com/ChrisTitusTech/winutil/main/winutil.ps1",
+            "local": false
+            }
+        },
+        "description": "Windows Utility Script",
+        "category": "Tools",
+        "author": "Chris Titus Tech",
+        "version": "1.0",
+        "admin": true
+    },
+    "test": {
+      "agents": {
+        "bash": {
+          "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/test.sh",
+          "local": false
+        }
+      },
+        "description": "Test",
+        "category": "Tools",
+        "author": "M4rshe1",
+        "version": "1.0",
+        "admin": false
     }
   }
 }

@@ -77,17 +77,22 @@ def add_args(file: str, request: Request, agent: str):
     return file
 
 
-@app.get("/files")
-async def root(request: Request):
+def get_files(request: Request):
     origin = str(request.url).split("/")[2]
     config = read_config()
     runfile = list(read_config()["files"].keys())
-    agents = [{file: list(config["files"][file].keys())} for file in config["files"]]
+    agents = {file: list(config["files"][file]["agents"].keys()) for file in config["files"]}
     return {
         "base_url": origin,
         "names": runfile,
-        "agents": agents
+        "agents": agents,
+        "files": config["files"],
     }
+
+
+@app.get("/files")
+async def root(request: Request):
+    return get_files(request)
 
 
 @app.get("/files/{token}")
@@ -97,13 +102,7 @@ async def root(request: Request, token: str = None):
     if config["settings"]["token_required"] and token is not None:
         if not check_token(token):
             return {"message": "Invalid token"}
-    runfile = list(read_config()["files"].keys())
-    agents = [{file: list(config["files"][file].keys())} for file in config["files"]]
-    return {
-        "base_url": origin,
-        "names": runfile,
-        "agents": agents
-    }
+    return get_files(request)
 
 
 @app.get("/{file}")
@@ -145,7 +144,7 @@ def get_response(request: Request, file: str, shell: str = None, token: str = No
         raw_file = read_file(
             config["settings"]["local_prefix"] + "/" +
             config["settings"]["hub_file"] + "." +
-            config["settings"]["agents"][agent]
+            config["settings"]["agents"][agent]["extension"]
         )
         raw_file = add_args(raw_file, request, agent)
         return add_token(token, raw_file, agent, request)
@@ -153,17 +152,17 @@ def get_response(request: Request, file: str, shell: str = None, token: str = No
     if file not in config["files"].keys():
         return {"message": "File not found"}
 
-    if agent not in config["files"][file].keys():
+    if agent not in config["files"][file]["agents"].keys():
         return {"message": "This agent is not supported for this file"}
 
-    if config["files"][file][agent]["local"]:
+    if config["files"][file]["agents"][agent]["local"]:
         # return in raw format
-        raw_file = read_file(config["files"][file][agent]["path"])
+        raw_file = read_file(config["files"][file]["agents"][agent]["path"])
         raw_file = add_args(raw_file, request, agent)
         raw_file = add_token(token, raw_file, agent, request)
         return raw_file
     else:
-        response = requests.get(config["files"][file][agent]["path"])
+        response = requests.get(config["files"][file]["agents"][agent]["path"])
         if response.status_code != 200:
             return {"message": "File not found"}
         raw_file = response.text
