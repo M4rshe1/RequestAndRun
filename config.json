@@ -30,7 +30,7 @@
     "token_required": false
   },
   "files": {
-    "ping-tool": {
+    "Ping Tool": {
       "agents": {
         "powershell": {
           "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/ping_tool/ping_tool.ps1",
@@ -47,7 +47,24 @@
       "version": "1.0",
       "admin": false
     },
-    "ctt": {
+    "Ping Hub": {
+      "agents": {
+        "powershell": {
+          "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/ping_tool/ping_hub.ps1",
+          "local": false
+        },
+        "pwsh": {
+          "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/ping_tool/ping_hub.ps1",
+          "local": false
+        }
+      },
+      "description": "Ping Hub",
+      "category": "Tools",
+      "author": "M4rshe1",
+      "version": "1.0",
+      "admin": false
+    },
+    "CTT Win util": {
         "agents": {
             "powershell": {
             "path": "https://raw.githubusercontent.com/ChrisTitusTech/winutil/main/winutil.ps1",
@@ -60,18 +77,22 @@
         "version": "1.0",
         "admin": true
     },
-    "test": {
+    "PS1 To EXE" : {
       "agents": {
-        "bash": {
-          "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/test.sh",
+        "powershell": {
+          "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/Generator/ps2exe.ps1",
+          "local": false
+        },
+        "pwsh": {
+          "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/Generator/ps2exe.ps1",
           "local": false
         }
       },
-        "description": "Test",
-        "category": "Tools",
-        "author": "M4rshe1",
-        "version": "1.0",
-        "admin": false
+      "description": "Converts PS1 to EXE",
+      "category": "Tools",
+      "author": "M4rshe1",
+      "version": "1.0",
+      "admin": false
     }
   }
 }

@@ -150,7 +150,7 @@ def get_response(request: Request, file: str, shell: str = None, token: str = No
         return add_token(token, raw_file, agent, request)
 
     if file not in config["files"].keys():
-        return {"message": "File not found"}
+        return {"message": "File not found, not in config"}
 
     if agent not in config["files"][file]["agents"].keys():
         return {"message": "This agent is not supported for this file"}
@@ -164,7 +164,7 @@ def get_response(request: Request, file: str, shell: str = None, token: str = No
     else:
         response = requests.get(config["files"][file]["agents"][agent]["path"])
         if response.status_code != 200:
-            return {"message": "File not found"}
+            return {"message": "File not found on remote server", "status_code": response.status_code}
         raw_file = response.text
         raw_file = add_args(raw_file, request, agent)
         raw_file = add_token(token, raw_file, agent, request)

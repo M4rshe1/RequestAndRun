@@ -51,12 +51,24 @@ Example `config.json` file:
     "hub_file": "hub",
     "state": "dev",
     "agents": {
-      "powershell": "ps1",
-      "pwsh": "ps1",
-      "bash": "sh",
-      "sh": "sh",
-      "curl": "sh",
-      "wget": "sh"
+      "powershell": {
+        "extension": "ps1"
+      },
+      "pwsh": {
+        "extension": "ps1"
+      },
+      "bash": {
+        "extension": "sh"
+      },
+      "sh": {
+        "extension": "sh"
+      },
+      "curl": {
+        "extension": "sh"
+      },
+      "wget": {
+        "extension": "sh"
+      }
     },
     "tokens": [
       "hub_config_token_2378r2tvf9iwjzebf89qz9fozhbsontgjnaeriufz973v",
@@ -66,23 +78,38 @@ Example `config.json` file:
   },
   "files": {
     "ping-tool": {
-      "powershell": {
-        "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/ping_tool/ping_tool.ps1",
-        "local": false
+      "agents": {
+        "powershell": {
+          "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/ping_tool/ping_tool.ps1",
+          "local": false
+        },
+        "pwsh": {
+          "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/ping_tool/ping_tool.ps1",
+          "local": false
+        }
       },
-      "pwsh": {
-        "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/ping_tool/ping_tool.ps1",
-        "local": false
-      }
+      "description": "Ping Tool",
+      "category": "Tools",
+      "author": "M4rshe1",
+      "version": "1.0",
+      "admin": false
     },
     "ctt": {
-      "powershell": {
-        "path": "https://christitus.com/win",
-        "local": false
-      }
+      "agents": {
+        "powershell": {
+          "path": "https://raw.githubusercontent.com/ChrisTitusTech/winutil/main/winutil.ps1",
+          "local": false
+        }
+      },
+      "description": "Windows Utility Script",
+      "category": "Tools",
+      "author": "Chris Titus Tech",
+      "version": "1.0",
+      "admin": true
     }
   }
 }
+
 ```
 
 ### Explanation:
@@ -91,15 +118,21 @@ Example `config.json` file:
 &nbsp;&nbsp;&nbsp;&nbsp;**local_prefix** The prefix in which folder to save the files. (Default: 'runfile')   
 &nbsp;&nbsp;&nbsp;&nbsp;**hub_file** The name of the file to use for the hub. (Default: 'hub')   
 &nbsp;&nbsp;&nbsp;&nbsp;**state** The state of the server. (Default: 'dev')   
-&nbsp;&nbsp;&nbsp;&nbsp;**agents** The supported agents and there default extension.   
+&nbsp;&nbsp;&nbsp;&nbsp;**agents** The supported agents and there default extension.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**extension** The default extension for the agent. (Default: 'sh')  
 &nbsp;&nbsp;&nbsp;&nbsp;**tokens** The tokens to use for authentication. (Default: '[]')   
 &nbsp;&nbsp;&nbsp;&nbsp;**token_required** If a token is required to run a file. (Default: 'false')   
 
 **Files**   
 &nbsp;&nbsp;&nbsp;&nbsp;**{filename}** The name of the file to run.  
-&nbsp;&nbsp;&nbsp;&nbsp;**{agent}** The agent to use to run the file.  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**path** The path to the file to run (local or url)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**local** If the file is local or not. (Default: 'false')  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**{agents}** The supported agents    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**path** The path to the file to run (local or url)    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**local** If the file is local or not. (Default: 'false')  
+&nbsp;&nbsp;&nbsp;&nbsp;**description** The description of the file.  
+&nbsp;&nbsp;&nbsp;&nbsp;**category** The category of the file.  
+&nbsp;&nbsp;&nbsp;&nbsp;**author** The author of the file.  
+&nbsp;&nbsp;&nbsp;&nbsp;**version** The version of the file.  
+&nbsp;&nbsp;&nbsp;&nbsp;**admin** If the file is admin only. (Default: 'false')  
 
 
 ### Hub
