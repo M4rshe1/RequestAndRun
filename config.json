@@ -95,22 +95,21 @@
       "admin": false
     },
     "Add SSH Key": {
-        "agents": {
-            "powershell": {
-            "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/remote/add-ssh-key.ps1",
-            "local": false
-            },
-            "pwsh": {
-            "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/remote/add-ssh-key.ps1",
-            "local": false
-            }
+      "agents": {
+        "powershell": {
+          "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/remote/add-ssh-key.ps1",
+          "local": false
         },
-        "description": "Add a SSH Key to a remote host",
-        "category": "Tools",
-        "author": "M4rshe1",
-        "version": "1.0",
-        "admin": false
+        "pwsh": {
+          "path": "https://raw.githubusercontent.com/M4rshe1/tups1s/master/USB/Scripts/remote/add-ssh-key.ps1",
+          "local": false
         }
+      },
+      "description": "Add a SSH Key to a remote host",
+      "category": "Tools",
+      "author": "M4rshe1",
+      "version": "1.0",
+      "admin": false
     }
   }
 }
