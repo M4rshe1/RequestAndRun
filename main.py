@@ -157,7 +157,7 @@ def get_response(request: Request, file: str, shell: str = None, token: str = No
 
     if config["files"][file]["agents"][agent]["local"]:
         # return in raw format
-        raw_file = read_file(config["files"][file]["agents"][agent]["path"])
+        raw_file = read_file(f"./{config['settings']['local_prefix']}/{config['files'][file]['agents'][agent]['path']}")
         raw_file = add_args(raw_file, request, agent)
         raw_file = add_token(token, raw_file, agent, request)
         return raw_file
